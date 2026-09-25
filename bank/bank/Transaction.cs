@@ -5,6 +5,7 @@ internal record Transaction(decimal Amount, DateTime Date, string Note);
 
 //internal record Transaction
 //{
+
 //    public decimal Amount { get; }
 //    public decimal Date { get; }
 //    public decimal Note { get; }
