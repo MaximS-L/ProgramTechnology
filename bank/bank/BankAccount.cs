@@ -3,7 +3,8 @@ using System.Text;
 
 namespace bank;
 
-internal class BankAccount
+// BankAccount - потомок класса object => 
+public class BankAccount
 {
     private List<Transaction> _allTransactions = new List<Transaction>();
     public string Owner { get; private set; }
@@ -73,4 +74,21 @@ internal class BankAccount
         }
         return report.ToString();
     }
+
+
+    //Ключевое слово virtual позволяет в дочернем классе
+    // предоставить другую реализацию
+    // метода PerformMonthAndTransactions
+    public virtual void PerformMonthAndTransactions()
+    {
+
+    }
+
+    public override string ToString()
+    {
+        return $"Type: {GetType().Name}\t" + $"Owner: { Owner}\t" + $"Number of account: { Number}\t" + $"Balance: { Balance}";
+    }
+
+  
 }
+

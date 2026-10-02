@@ -1,4 +1,6 @@
-﻿namespace bank
+﻿using System.Net.WebSockets;
+
+namespace bank
 {
     internal class Program
     {
@@ -8,9 +10,9 @@
             BankAccount account2 = new BankAccount("Egor", 12288);
             Console.WriteLine($"account: {account1.Owner} {account1.Balance} {account1.Number}");
             Console.WriteLine($"account: {account2.Owner} {account2.Balance} {account2.Number}");
-            account1.MakeDeposit(1000, DateTime.UtcNow, ":)");
+            account1.MakeDeposit(1000m, DateTime.UtcNow, ":)");
             Console.WriteLine(account1.Balance);
-            account1.MakeWithdrawal(100, DateTime.UtcNow, ":)");
+            account1.MakeWithdrawal(100m, DateTime.UtcNow, ":)");
             Console.WriteLine(account1.Balance);
             Console.WriteLine(account1.GetAccountHistory());
 
@@ -23,6 +25,14 @@
             {
                 Console.WriteLine(e.Message);
             }
+            InterestEarningAcoount interestEarning = new("Maxim", 1000m);
+            interestEarning.MakeDeposit(1000m, DateTime.UtcNow, ";)");
+            interestEarning.MakeWithdrawal(10m, DateTime.UtcNow, ";(");
+            interestEarning.PerformMonthAndTransactions();
+
+            Console.WriteLine(interestEarning); // Автоматически вызывает ToString()
+            // == Console.WriteLine(interestEarning.ToString);
+            Console.WriteLine(interestEarning.GetAccountHistory());
         }
     }
 }
