@@ -18,7 +18,7 @@ namespace bank
 
             try
             {
-                account2.MakeWithdrawal(10000000, DateTime.UtcNow, ";)");
+                account2.MakeWithdrawal(10000000, DateTime.UtcNow, "; )");
                 Console.WriteLine(account2.Balance);
             }
             catch (InvalidOperationException e)
