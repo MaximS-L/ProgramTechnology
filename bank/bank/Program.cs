@@ -12,7 +12,7 @@ namespace bank
             Console.WriteLine($"account: {account2.Owner} {account2.Balance} {account2.Number}");
             account1.MakeDeposit(1000m, DateTime.UtcNow, ":)");
             Console.WriteLine(account1.Balance);
-            account1.MakeWithdrawal(100m, DateTime.UtcNow, ":)");
+            account1.MakeWithdrawal(100m, DateTime.UtcNow, ": )");
             Console.WriteLine(account1.Balance);
             Console.WriteLine(account1.GetAccountHistory());
 
