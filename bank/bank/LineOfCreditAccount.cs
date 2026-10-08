@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace bank;
+﻿namespace bank;
 
 public class LineOfCreditAccount : BankAccount
 {
     public LineOfCreditAccount(string name, decimal initialBalance, decimal creditLimit) 
         : base(name, initialBalance, -creditLimit)
     {
+
     }
+   
 
     public override void PerformMonthAndTransactions()
     {
@@ -20,6 +18,6 @@ public class LineOfCreditAccount : BankAccount
         }
     }
 
-    private protected override Transaction? CheckWithdrawalLimit(bool isOverdrawn)
+    protected override Transaction? CheckWithdrawalLimit(bool isOverdrawn)
         => isOverdrawn ? new Transaction(-20, DateTime.UtcNow, "apply overdraft") : default;
 }

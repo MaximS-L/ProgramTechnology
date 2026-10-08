@@ -2,7 +2,7 @@
 
 namespace bank;
 
-internal class InterestEarningAcoount: BankAccount
+public class InterestEarningAcoount: BankAccount
 {
     public  InterestEarningAcoount(string name,  decimal initialBalance)
         : base(name, initialBalance)

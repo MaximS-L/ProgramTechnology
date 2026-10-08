@@ -2,7 +2,7 @@
 
 namespace bank
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -28,14 +28,29 @@ namespace bank
             {
                 Console.WriteLine(e.Message);
             }
-            InterestEarningAcoount interestEarning = new("Maxim", 1000m);
-            interestEarning.MakeDeposit(1000m, DateTime.UtcNow, ";)");
 
-            interestEarning.MakeWithdrawal(10m, DateTime.UtcNow, ";(");
-            interestEarning.PerformMonthAndTransactions();
+            InterestEarningAcoount interest = new InterestEarningAcoount("Maxim", 1000);
+            interest.PerformMonthAndTransactions();
 
-            Console.WriteLine(interestEarning);
-            Console.WriteLine(interestEarning.GetAccountHistory());
+            Console.WriteLine(interest.GetAccountHistory());
+
+            LineOfCreditAccount lineOfCredit = new LineOfCreditAccount("Maxim", 0, 1000m);
+            lineOfCredit.MakeWithdrawal(500m, DateTime.UtcNow, "credit");
+
+            GiftCardAccount giftcart = new GiftCardAccount("Maxim", 1000m, 5000m);
+
+            List<BankAccount> accounts = new List<BankAccount>();
+            accounts.Add(account1);
+            accounts.Add(interest);
+            accounts.Add(lineOfCredit);
+            accounts.Add(giftcart);
+
+            foreach (BankAccount account in accounts)
+            {
+                Console.WriteLine(account);
+                account.PerformMonthAndTransactions();
+                Console.WriteLine(account.GetAccountHistory);
+            }
 
             Console.WriteLine("\n Credit Balance");
             LineOfCreditAccount credit = new("Max_Credit", 0m, 2000m);
