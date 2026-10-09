@@ -12,7 +12,8 @@ public class InterestEarningAccount : BankAccount
     /// </summary>
     public InterestEarningAccount(string name, decimal initialBalance)
         : base(name, initialBalance)
-    {
+    { 
+
     }
 
     /// <summary>
