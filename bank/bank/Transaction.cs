@@ -1,6 +1,8 @@
-﻿
-namespace bank;
-// мы создали благодаря record неизменяемый тип данных
+﻿namespace bank;
+
+/// <summary>
+/// Представляет неизменяемую запись о банковской операции, хранящую сумму, дату проведения и комментарий.
+/// </summary>
 public record Transaction(decimal Amount, DateTime Date, string Note);
 
 //internal record Transaction
