@@ -31,7 +31,7 @@ public class Program
         }
 
         InterestEarningAccount interest = new InterestEarningAccount("Maxim", 1000);
-        interest.PerformMonthEndTransactions();
+        interest.PerformMonthAndTransactions();
 
         Console.WriteLine(interest.GetAccountHistory());
 
@@ -49,7 +49,7 @@ public class Program
         foreach (BankAccount account in accounts)
         {
             Console.WriteLine(account);
-            account.PerformMonthEndTransactions();
+            account.PerformMonthAndTransactions();
             Console.WriteLine(account.GetAccountHistory());
         }
 
@@ -59,7 +59,7 @@ public class Program
         credit.MakeWithdrawal(1500m, DateTime.UtcNow, "Покупка 1");
         credit.MakeWithdrawal(1000m, DateTime.UtcNow, "Покупка 2");
 
-        credit.PerformMonthEndTransactions();
+        credit.PerformMonthAndTransactions();
         Console.WriteLine(credit.GetAccountHistory());
     }
 }

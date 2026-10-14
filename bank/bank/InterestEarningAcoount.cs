@@ -19,7 +19,7 @@ public class InterestEarningAccount : BankAccount
     /// <summary>
     /// Проверяет остаток на счёте в конце месяца и начисляет бонусные 2% годовых, если баланс превышает 500 единиц.
     /// </summary>
-    public override void PerformMonthEndTransactions()
+    public override void PerformMonthAndTransactions()
     {
         if (Balance > 500m)
         {

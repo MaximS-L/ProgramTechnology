@@ -18,7 +18,7 @@ public class LineOfCreditAccount : BankAccount
     /// <summary>
     /// Проверяет наличие задолженности в конце месяца и списывает комиссию в размере 7% от суммы долга.
     /// </summary>
-    public override void PerformMonthEndTransactions()
+    public override void PerformMonthAndTransactions()
     {
         if (Balance < 0)
         {

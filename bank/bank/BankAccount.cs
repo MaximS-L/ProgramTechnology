@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bank;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,6 +30,7 @@ public class BankAccount
     /// </summary>
     public string Owner { get; private set; }
 
+
     /// <summary>
     /// Текущий баланс счёта, автоматически вычисляемый как сумма всех совершённых транзакций.
     /// </summary>
@@ -49,6 +51,11 @@ public class BankAccount
     /// Внутренний список, хранящий всю историю транзакций по данному счёту.
     /// </summary>
     private List<Transaction> _allTransactions = new List<Transaction>();
+
+    /// <summary>
+    /// Статус клиента, определяющий условия обслуживания счёта.
+    /// </summary>
+    public ClientStatus Status { get; private set; }
 
     /// <summary>
     /// Инициализирует обычный банковский счёт с указанием владельца и начального баланса. Минимальный лимит баланса устанавливается в 0.
@@ -134,10 +141,50 @@ public class BankAccount
     }
 
     /// <summary>
-    /// Выполняет регламентные расчёты и транзакции в конце месяца. Переопределяется в классах-наследниках.
+    /// Начисляет проценты на остаток и списывает комиссию за обслуживание
+    /// в соответствии со статусом клиента.
     /// </summary>
-    public virtual void PerformMonthEndTransactions()
+    public virtual void PerformMonthAndTransactions()
     {
+        decimal interest = Status switch
+        {
+            ClientStatus.Premium when Balance > 10_000m => Balance * 0.01m,
+            ClientStatus.Vip when Balance > 10_000m => Balance * 0.03m,
+            _ => 0m
+        };
+
+        if (interest > 0m)
+            MakeDeposit(interest, DateTime.UtcNow, "Apply month interest");
+
+        decimal fee = Status switch
+        {
+            ClientStatus.Regular => 50m,
+            _ => 0m
+        };
+
+        if (fee > 0m && Balance >= fee)
+            MakeWithdrawal(fee, DateTime.UtcNow, "Monthly service fee");
+
+        if (Status == ClientStatus.Vip)
+        {
+            decimal cashback = CalculateCashback();
+            if (cashback > 0m)
+                MakeDeposit(cashback, DateTime.UtcNow, "Cashback 5%");
+        }
+    }
+
+    /// <summary>
+    /// Рассчитывает сумму кэшбэка на основе общей суммы расходов по счету.
+    /// </summary>
+    private decimal CalculateCashback()
+    {
+        decimal withdrawals = 0m;
+        foreach (var t in _allTransactions)
+        {
+            if (t.Amount < 0m && t.Note != "Cashback 5%")
+                withdrawals += -t.Amount;
+        }
+        return withdrawals * 0.05m;
     }
 
     /// <summary>
@@ -147,4 +194,5 @@ public class BankAccount
     {
         return $"Type: {GetType().Name}\tOwner: {Owner}\tNumber of account: {Number}\tBalance: {Balance}";
     }
+
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace bank;
 
@@ -22,7 +22,7 @@ public class GiftCardAccount : BankAccount
     /// <summary>
     /// Проверяет настройки карты в конце месяца и автоматически зачисляет фиксированную сумму, если она больше нуля.
     /// </summary>
-    public override void PerformMonthEndTransactions()
+    public override void PerformMonthAndTransactions()
     {
         if (_monthlyDeposit != 0)
         {
