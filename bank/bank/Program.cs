@@ -62,6 +62,20 @@ public class Program
         credit.PerformMonthAndTransactions();
         Console.WriteLine(credit.GetAccountHistory());
 
+        Console.WriteLine("\n Transfer");
+        TransferService.Transfer(account1, account2, 500m, DateTime.UtcNow);
+        Console.WriteLine(account1.GetAccountHistory());
+        Console.WriteLine(account2.GetAccountHistory());
+
+        try
+        {
+            TransferService.Transfer(account2, account1, 10_000_000m, DateTime.UtcNow);
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
         Console.WriteLine("\n Audit log");
         Console.WriteLine(AuditLog.GetReport());
     }
