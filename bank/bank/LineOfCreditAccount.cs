@@ -23,7 +23,7 @@ public class LineOfCreditAccount : BankAccount
         if (Balance < 0)
         {
             decimal interest = -Balance * 0.07m;
-            MakeWithdrawal(interest, DateTime.UtcNow, "Charge monthly interest");
+            MakeWithdrawal(interest, DateTime.UtcNow, "Charge monthly interest", AuditOperationType.Interest);
         }
     }
 
@@ -31,5 +31,12 @@ public class LineOfCreditAccount : BankAccount
     /// Проверяет выход за рамки доступного баланса и возвращает транзакцию штрафа в размере 20 единиц при овердрафте.
     /// </summary>
     protected override Transaction? CheckWithdrawalLimit(bool isOverdrawn)
-        => isOverdrawn ? new Transaction(-20, DateTime.UtcNow, "apply overdraft") : default;
+    {
+        if (!isOverdrawn)
+            return default;
+
+        var fee = new Transaction(-20, DateTime.UtcNow, "apply overdraft");
+        AuditLog.Record(Number, AuditOperationType.Withdrawal, 20, fee.Date);
+        return fee;
+    }
 }

@@ -61,5 +61,8 @@ public class Program
 
         credit.PerformMonthAndTransactions();
         Console.WriteLine(credit.GetAccountHistory());
+
+        Console.WriteLine("\n Audit log");
+        Console.WriteLine(AuditLog.GetReport());
     }
 }

@@ -81,7 +81,8 @@ public class BankAccount
     /// <summary>
     /// Зачисляет на счёт указанную сумму на определённую дату с текстовым комментарием. Сумма должна быть строго положительной.
     /// </summary>
-    public void MakeDeposit(decimal amount, DateTime date, string note)
+    public void MakeDeposit(decimal amount, DateTime date, string note,
+     AuditOperationType type = AuditOperationType.Deposit)
     {
         if (amount < 0)
         {
@@ -90,12 +91,14 @@ public class BankAccount
 
         var deposite = new Transaction(amount, date, note);
         _allTransactions.Add(deposite);
+        AuditLog.Record(Number, type, amount, date);
     }
 
     /// <summary>
     /// Списывает со счёта указанную сумму на определённую дату с комментарием, а также автоматически применяет овердрафт при нехватке лимита.
     /// </summary>
-    public void MakeWithdrawal(decimal amount, DateTime date, string note)
+    public void MakeWithdrawal(decimal amount, DateTime date, string note,
+    AuditOperationType type = AuditOperationType.Withdrawal)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
 
@@ -103,6 +106,7 @@ public class BankAccount
         Transaction? withdrawal = new(-amount, date, note);
 
         _allTransactions.Add(withdrawal);
+        AuditLog.Record(Number, type, amount, date);
 
         if (overdraftTransaction is not null)
             _allTransactions.Add(overdraftTransaction);
@@ -154,7 +158,7 @@ public class BankAccount
         };
 
         if (interest > 0m)
-            MakeDeposit(interest, DateTime.UtcNow, "Apply month interest");
+            MakeDeposit(interest, DateTime.UtcNow, "Apply month interest", AuditOperationType.Interest);
 
         decimal fee = Status switch
         {
