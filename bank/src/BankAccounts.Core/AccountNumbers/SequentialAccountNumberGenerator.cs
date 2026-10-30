@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace BankAccounts.Core.AccountNumbers;
 
-namespace BankAccounts.Core.AccountNumbers
+// Простая последовательная нумерация. Можно заменить на GUID или другую стратегию (SRP)
+public sealed class SequentialAccountNumberGenerator : IAccountNumberGenerator
 {
-    internal class SequentialAccountNumberGenerator
+    private int _seed;
+    public SequentialAccountNumberGenerator(int seed = 1234567890)
+        => _seed = seed;
+
+    public string Next()
     {
+        return (_seed++).ToString();
     }
 }
