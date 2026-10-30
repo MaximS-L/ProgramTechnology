@@ -7,6 +7,7 @@ public class Program
 {
     static void Main(string[] args)
     {
+
         BankAccount account1 = new BankAccount("Maxon", 230046);
         BankAccount account2 = new BankAccount("Egor", 12288);
         Console.WriteLine($"account: {account1.Owner} {account1.Balance} {account1.Number}");
