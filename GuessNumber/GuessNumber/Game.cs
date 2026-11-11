@@ -19,11 +19,10 @@ namespace GuessNumber
 
     public enum Hint
     {
-        Higher,   // загаданное число больше
-        Lower     // загаданное число меньше
+        Higher,  
+        Lower     
     }
 
-    // Итог партии: его получают все подписчики
     public class GameResult
     {
         public string Difficulty { get; }
@@ -56,7 +55,7 @@ namespace GuessNumber
         public event Action InvalidInput;
         public event Action<GameResult> Won;
         public event Action<GameResult> Lost;
-        public event Action<GameResult> Finished;   // и победа, и поражение
+        public event Action<GameResult> Finished;   
 
         public Game(ISecretGenerator generator, Settings settings)
         {
@@ -91,7 +90,6 @@ namespace GuessNumber
             CheckAttemptsLeft();
         }
 
-        // Некорректный ввод: попытка засчитывается
         public void SkipAttempt()
         {
             Attempts++;

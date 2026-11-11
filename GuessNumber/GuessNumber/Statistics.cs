@@ -11,7 +11,6 @@ namespace GuessNumber
         public int MaxAttempts { get; private set; }
         public int TotalAttempts { get; private set; }
 
-        // Сколько раз сыграли на каждом уровне сложности
         public Dictionary<string, int> GamesByLevel { get; } = new Dictionary<string, int>();
 
         public double Average
@@ -19,7 +18,6 @@ namespace GuessNumber
             get { return Wins > 0 ? (double)TotalAttempts / Wins : 0; }
         }
 
-        // Подписывается на событие Game.Finished
         public void AddGame(GameResult result)
         {
             Games++;
