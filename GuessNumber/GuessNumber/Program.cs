@@ -1,65 +1,53 @@
 ﻿using System;
 
-namespace GuessGame
+namespace GuessNumber
 {
     class Program
     {
         static void Main(string[] args)
         {
-            ISecret engine = new Engine();
+            ISecretGenerator generator = new RandomSecretGenerator();
+            IStatisticsStorage storage = new FileStatisticsStorage("stats.txt");
 
-            UI ui = new UI();
-            Store store = new Store();
+            IOutput output = new CompositeOutput(
+                new ConsoleOutput(),
+                new FileOutput("game_log.txt"));
+
+            GameUI ui = new GameUI(output);
             Statistics statistics = new Statistics();
-
-            bool play = true;
 
             do
             {
-                Config cfg = ui.GetConfig();
+                Settings settings = ui.ChooseSettings();
 
-                Match match = new Match(engine, cfg);
+                Game game = new Game(generator, settings);
+                ui.Subscribe(game);
+                game.Finished += statistics.AddGame;
 
-                ui.Bind(match);
-                match.Run();
+                game.Start();
 
-                int maxTries = cfg.Tries;
-                bool done = false;
-
-                for (int i = 1; i <= maxTries; i++)
+                while (!game.IsFinished)
                 {
-                    int num = ui.ReadNum(i);
+                    int? number = ui.ReadNumber(game.Attempts + 1);
 
-                    done = match.Check(num);
-
-                    if (done)
-                        break;
+                    if (number.HasValue)
+                        game.MakeGuess(number.Value);
+                    else
+                        game.SkipAttempt();
                 }
-
-                statistics.AddResult(
-                    match.GetCount(),
-                    match.IsWin()
-                );
-
-                play = ui.Loop();
-
-            } while (play);
+            } while (ui.AskContinue());
 
             if (ui.AskSave())
             {
-                store.Save(statistics);
-
-                Console.WriteLine(
-                    "Статистика успешно сохранена в файл stats.txt!");
+                storage.Save(statistics);
+                ui.ShowMessage("Статистика успешно сохранена в файл stats.txt!");
             }
             else
             {
-                Console.WriteLine("Выход без сохранения.");
+                ui.ShowMessage("Выход без сохранения.");
             }
 
-            Console.WriteLine(
-                "Спасибо за игру! Нажмите любую клавишу для выхода...");
-
+            Console.WriteLine("Спасибо за игру! Нажмите любую клавишу для выхода...");
             Console.ReadKey();
         }
     }
