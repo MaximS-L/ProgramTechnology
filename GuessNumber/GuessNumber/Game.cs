@@ -10,7 +10,6 @@ namespace GuessNumber
     public class RandomSecretGenerator : ISecretGenerator
     {
         private readonly Random _random = new Random();
-
         public int Generate(int min, int max)
         {
             return _random.Next(min, max + 1);
@@ -46,7 +45,6 @@ namespace GuessNumber
         private readonly ISecretGenerator _generator;
         private readonly Settings _settings;
         private int _secret;
-
         public int Attempts { get; private set; }
         public bool IsFinished { get; private set; }
 
@@ -83,10 +81,13 @@ namespace GuessNumber
             }
 
             if (number > _secret)
+            {
                 HintGiven?.Invoke(Hint.Lower);
+            }
             else
+            {
                 HintGiven?.Invoke(Hint.Higher);
-
+            }
             CheckAttemptsLeft();
         }
 
@@ -100,7 +101,9 @@ namespace GuessNumber
         private void CheckAttemptsLeft()
         {
             if (Attempts >= _settings.MaxAttempts)
+            {
                 Finish(false);
+            }
         }
 
         private void Finish(bool isWin)
@@ -111,10 +114,13 @@ namespace GuessNumber
                 _settings.Name, Attempts, _settings.MaxAttempts, _secret, isWin);
 
             if (isWin)
+            {
                 Won?.Invoke(result);
+            }
             else
+            {
                 Lost?.Invoke(result);
-
+            }
             Finished?.Invoke(result);
         }
     }

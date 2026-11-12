@@ -23,7 +23,9 @@ namespace GuessNumber
             Games++;
 
             if (!GamesByLevel.ContainsKey(result.Difficulty))
+            {
                 GamesByLevel[result.Difficulty] = 0;
+            }
             GamesByLevel[result.Difficulty]++;
 
             if (!result.IsWin)
@@ -33,10 +35,13 @@ namespace GuessNumber
             TotalAttempts += result.Attempts;
 
             if (MinAttempts == 0 || result.Attempts < MinAttempts)
+            {
                 MinAttempts = result.Attempts;
-
+            }
             if (result.Attempts > MaxAttempts)
+            {
                 MaxAttempts = result.Attempts;
+            }
         }
     }
 
@@ -68,9 +73,8 @@ namespace GuessNumber
 
             foreach (var pair in statistics.GamesByLevel)
             {
-                lines.Add($"  {pair.Key}: {pair.Value}");
+                lines.Add("  " + pair.Key + ": " + pair.Value);
             }
-
             File.WriteAllLines(_path, lines);
         }
     }
