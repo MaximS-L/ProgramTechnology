@@ -1,43 +1,11 @@
-﻿using System;
+using System;
 
 namespace GuessNumber
 {
-    public interface ISecretGenerator
-    {
-        int Generate(int min, int max);
-    }
-
-    public class RandomSecretGenerator : ISecretGenerator
-    {
-        private readonly Random _random = new Random();
-        public int Generate(int min, int max)
-        {
-            return _random.Next(min, max + 1);
-        }
-    }
-
     public enum Hint
     {
-        Higher,  
-        Lower     
-    }
-
-    public class GameResult
-    {
-        public string Difficulty { get; }
-        public int Attempts { get; }
-        public int MaxAttempts { get; }
-        public int Secret { get; }
-        public bool IsWin { get; }
-
-        public GameResult(string difficulty, int attempts, int maxAttempts, int secret, bool isWin)
-        {
-            Difficulty = difficulty;
-            Attempts = attempts;
-            MaxAttempts = maxAttempts;
-            Secret = secret;
-            IsWin = isWin;
-        }
+        Higher,
+        Lower
     }
 
     public class Game
@@ -53,7 +21,7 @@ namespace GuessNumber
         public event Action InvalidInput;
         public event Action<GameResult> Won;
         public event Action<GameResult> Lost;
-        public event Action<GameResult> Finished;   
+        public event Action<GameResult> Finished;
 
         public Game(ISecretGenerator generator, Settings settings)
         {

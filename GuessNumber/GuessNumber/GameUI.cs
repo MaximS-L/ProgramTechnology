@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 
 namespace GuessNumber;
 
 public class GameUI
 {
     private readonly IOutput _output;
-    private readonly IDifficultyProvider _levels;                
-    public GameUI(IOutput output, IDifficultyProvider levels)    
+    private readonly IDifficultyProvider _levels;
+    public GameUI(IOutput output, IDifficultyProvider levels)
     {
         _output = output;
-        _levels = levels;                                       
+        _levels = levels;
     }
 
     public void Subscribe(Game game)
@@ -48,7 +48,7 @@ public class GameUI
 
     public Settings ChooseSettings()
     {
-        var levels = _levels.GetAll();                          
+        var levels = _levels.GetAll();
 
         Console.WriteLine("Выберите уровень сложности:");
         for (int i = 0; i < levels.Count; i++)
@@ -70,7 +70,7 @@ public class GameUI
             int tries = ReadPositive("Введите количество попыток: ");
             return new Settings("Пользовательский", max, tries);
         }
-        return levels[1]; 
+        return levels[1];
     }
 
     public int? ReadNumber(int attemptNumber)

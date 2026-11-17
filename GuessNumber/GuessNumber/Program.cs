@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace GuessNumber;
 
@@ -8,12 +8,12 @@ class Program
     {
         ISecretGenerator generator = new RandomSecretGenerator();
         IStatisticsStorage storage = new FileStatisticsStorage("stats.txt");
-        IDifficultyProvider levels = new DifficultyLevels();    
+        IDifficultyProvider levels = new DifficultyLevels();
         IOutput output = new CompositeOutput(
             new ConsoleOutput(),
             new FileOutput("game_log.txt"));
 
-        GameUI ui = new GameUI(output, levels);                   
+        GameUI ui = new GameUI(output, levels);
         Statistics statistics = new Statistics();
 
         do
